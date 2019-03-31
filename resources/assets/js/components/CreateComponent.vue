@@ -1,26 +1,58 @@
 <template>
   <div>
-    <h1>Create A Post</h1>
-    <form @submit.prevent="addPost">
+    <h1>Add A Guest</h1>
+    <form @submit.prevent="addGuest">
       <div class="row">
         <div class="col-md-6">
-          <div class="form-group">
-            <label>Post Title:</label>
-            <input type="text" class="form-control" v-model="post.title">
+            <div :class="['form-group', allerros.first_name ? 'has-error' : '']" >
+            <label>First Name:</label>
+            <input type="text" class="form-control" v-model="guest.first_name">
+            <span v-if="allerros.first_name" :class="['label label-danger']">{{ allerros.first_name[0] }}</span>
           </div>
         </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group">
-              <label>Post Body:</label>
-              <textarea class="form-control" v-model="post.body" rows="5"></textarea>
-            </div>
+        <div class="col-md-6">
+          <div :class="['form-group', allerros.last_name ? 'has-error' : '']" >
+            <label>Last Name:</label>
+            <input type="text" class="form-control" v-model="guest.last_name">
+            <span v-if="allerros.last_name" :class="['label label-danger']">{{ allerros.last_name[0] }}</span>
           </div>
-        </div><br />
-        <div class="form-group">
-          <button class="btn btn-primary">Create</button>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div :class="['form-group', allerros.gender ? 'has-error' : '']" >
+            <label>Gender:</label>
+            <input type="text" class="form-control" v-model="guest.gender">
+            <span v-if="allerros.gender" :class="['label label-danger']">{{ allerros.gender[0] }}</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div :class="['form-group', allerros.email ? 'has-error' : '']" >
+            <label>Email:</label>
+            <input type="text" class="form-control" v-model="guest.email">
+            <span v-if="allerros.email" :class="['label label-danger']">{{ allerros.email[0] }}</span>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div :class="['form-group', allerros.phone_number ? 'has-error' : '']" >
+            <label>Phone Number:</label>
+            <input type="text" class="form-control" v-model="guest.phone_number">
+            <span v-if="allerros.phone_number" :class="['label label-danger']">{{ allerros.phone_number[0] }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div :class="['form-group', allerros.address ? 'has-error' : '']" >
+            <label>Address:</label>
+            <textarea class="form-control" v-model="guest.address" rows="3"></textarea>
+            <span v-if="allerros.address" :class="['label label-danger']">{{ allerros.address[0] }}</span>
+          </div>
+        </div>
+      </div><br />
+      <div class="form-group">
+        <button class="btn btn-primary">Create</button>
+      </div>
     </form>
   </div>
 </template>
@@ -29,12 +61,23 @@
     export default {
         data(){
         return {
-          post:{}
+          guest:{},
+          allerros: [],
+          success : false,  
         }
     },
     methods: {
-      addPost(){
-        console.log(this.post);
+      addGuest(){
+        let uri = 'http://localhost/api/guest/create';
+        this.axios.post(uri, this.guest).then((response) => {
+          this.form = [];
+          this.allerros = [];
+          this.$router.push({name: 'guests', params: {success: 'successfully added' }});
+          this.success = true;
+        }).catch((error) => {
+             this.allerros = error.response.data.errors;
+             this.success = false;
+        });
       }
     }
   }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Resources\GuestCollection;
 use App\Guest;
 
 class GuestController extends Controller
@@ -14,9 +15,11 @@ class GuestController extends Controller
      */
     public function index()
     {
-        $guests = Guest::all();
+        // $guests = Guest::all();
+        // return view('guests.index', compact('guests'));
 
-        return view('guests.index', compact('guests'));
+        return new GuestCollection(Guest::all());
+        // return view('guests.create');
     }
 
     /**
@@ -44,7 +47,7 @@ class GuestController extends Controller
             'email'=>'required|regex:/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}/',
             'gender'=>'required',
             'address'=>'required',
-            'phone_number'=>'regex:/[0-9]{7}/'
+            'phone_number'=>'required|regex:/[0-9]{7}/'
         ]);
 
         $guest = new Guest([
@@ -56,7 +59,8 @@ class GuestController extends Controller
             'address' => $request->get('address')
         ]);
         $guest->save();
-        return redirect('/guests')->with('success', 'Guest saved!');
+        // return redirect('/guests')->with('success', 'Guest saved!');
+        return response()->json(['success'=>'success']);
     }
 
     /**
@@ -79,7 +83,8 @@ class GuestController extends Controller
     public function edit($id)
     {
         $guest = Guest::find($id);
-        return view('guests.edit', compact('guest'));   
+        // return view('guests.edit', compact('guest'));  
+        return response()->json($guest); 
     }
 
     /**
@@ -94,9 +99,10 @@ class GuestController extends Controller
         $request->validate([
             'first_name'=>'required',
             'last_name'=>'required',
-            'email'=>'required',
+            'email'=>'required|regex:/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}/',
             'gender'=>'required',
-            'address'=>'required'
+            'address'=>'required',
+            'phone_number'=>'required|regex:/[0-9]{7}/'
         ]);
 
         $guest = Guest::find($id);
@@ -108,7 +114,10 @@ class GuestController extends Controller
         $guest->address = $request->get('address');
         $guest->save();
 
-        return redirect('/guests')->with('success', 'Guest updated!');
+        // return redirect('/guests')->with('success', 'Guest updated!');
+
+        // return response()->json('successfully updated');
+        return response()->json(['success'=>'success']);
     }
 
     /**
@@ -117,11 +126,13 @@ class GuestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function delete($id)
     {
         $guest = Guest::find($id);
         $guest->delete();
 
-        return redirect('/guests')->with('success', 'Guest deleted!');
+        // return redirect('/guests')->with('success', 'Guest deleted!');
+        // return response()->json('successfully deleted');
+        return response()->json(['success'=>'successfully deleted']);
     }
 }

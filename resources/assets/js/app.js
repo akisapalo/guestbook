@@ -28,9 +28,10 @@ const routes = [
       component: CreateComponent
   },
   {
-      name: 'posts',
-      path: '/posts',
-      component: IndexComponent
+      name: 'guests',
+      path: '/guests',
+      component: IndexComponent,
+      props: true
   },
   {
       name: 'edit',
