@@ -15,11 +15,7 @@ class GuestController extends Controller
      */
     public function index()
     {
-        // $guests = Guest::all();
-        // return view('guests.index', compact('guests'));
-
         return new GuestCollection(Guest::all());
-        // return view('guests.create');
     }
 
     /**
@@ -59,7 +55,6 @@ class GuestController extends Controller
             'address' => $request->get('address')
         ]);
         $guest->save();
-        // return redirect('/guests')->with('success', 'Guest saved!');
         return response()->json(['success'=>'success']);
     }
 
@@ -83,7 +78,6 @@ class GuestController extends Controller
     public function edit($id)
     {
         $guest = Guest::find($id);
-        // return view('guests.edit', compact('guest'));  
         return response()->json($guest); 
     }
 
@@ -113,10 +107,6 @@ class GuestController extends Controller
         $guest->gender = $request->get('gender');
         $guest->address = $request->get('address');
         $guest->save();
-
-        // return redirect('/guests')->with('success', 'Guest updated!');
-
-        // return response()->json('successfully updated');
         return response()->json(['success'=>'success']);
     }
 
@@ -130,9 +120,6 @@ class GuestController extends Controller
     {
         $guest = Guest::find($id);
         $guest->delete();
-
-        // return redirect('/guests')->with('success', 'Guest deleted!');
-        // return response()->json('successfully deleted');
         return response()->json(['success'=>'successfully deleted']);
     }
 }

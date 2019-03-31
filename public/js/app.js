@@ -47648,15 +47648,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    mounted: function mounted() {
-        console.log('Component mounted.');
-    }
+    mounted: function mounted() {}
 });
 
 /***/ }),
@@ -47675,17 +47669,9 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-8" }, [
+      _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "panel panel-default" }, [
-          _c("div", { staticClass: "panel-heading" }, [
-            _vm._v("Home Component")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _vm._v(
-              "\n                I'm the Home Component component.\n            "
-            )
-          ])
+          _c("div", { staticClass: "panel-heading" }, [_vm._v("Welcome!")])
         ])
       ])
     ])
@@ -48249,23 +48235,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   methods: {
-    deleteGuest1111: function deleteGuest1111(id) {
+    deleteGuest: function deleteGuest(id) {
       var _this2 = this;
 
       var uri = 'http://localhost/api/guest/delete/' + id;
       this.axios.delete(uri).then(function (response) {
-        _this2.guests.splice(_this2.guests.indexOf(id), 1);
-      });
-    },
-    deleteGuest: function deleteGuest(id) {
-      var _this3 = this;
-
-      var uri = 'http://localhost/api/guest/delete/' + id;
-      this.axios.delete(uri).then(function (response) {
-        _this3.success = ' has been deleted!';
+        _this2.success = ' has been deleted!';
       }).then(function (response) {
-        // Logic to delete local state
-        _this3.guests.splice(_this3.guests.indexOf(id), 1);
+        _this2.guests.splice(_this2.guests.indexOf(id), 1);
       }).catch(function (error) {
         console.log(error);
       });
